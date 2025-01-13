@@ -96,16 +96,11 @@
         }
 
         .pictures img {
-            width: 100%;
-            max-width: 250px;
+            width: 300px;
             height: auto;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .pictures img:hover {
-            transform: scale(1.1);
+            transition: none; /* Remove hover effect */
         }
 
         .wish {
@@ -170,10 +165,11 @@
                 padding: 10px 20px;
             }
 
-            /* Make images responsive */
+            /* Resize images for mobile */
             .pictures img {
-                max-width: 100%; /* Adjust images to fit mobile */
-                max-width: 250px;
+                max-width: 100%; /* Ensure images fit on mobile */
+                width: 200px; /* Make images smaller for mobile */
+                height: auto;
             }
 
             #live-timer {

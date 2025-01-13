@@ -87,20 +87,21 @@
             }
         }
 
+        /* Pictures container (hidden initially) */
         .pictures {
             display: flex;
-            flex-wrap: nowrap;
+            flex-direction: column;
             gap: 20px;
             justify-content: center;
             margin-top: 20px;
-            overflow-x: auto;
-            padding: 20px;
-            max-width: 100%;
-            display: none; /* Hidden initially until button is clicked */
+            overflow-y: scroll;
+            max-height: 50vh; /* Limit height for scrolling */
+            display: none; /* Hidden initially */
+            padding: 10px;
         }
 
         .pictures img {
-            width: 200px;
+            width: 80%;
             height: auto;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
@@ -171,8 +172,8 @@
 
             /* Resize images for mobile */
             .pictures img {
-                width: 150px;
-                height: auto;
+                width: 90%; /* Resize images for mobile */
+                max-width: 250px;
             }
 
             #live-timer {
@@ -180,6 +181,7 @@
                 padding: 8px;
             }
         }
+
     </style>
 </head>
 <body>

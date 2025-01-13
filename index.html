@@ -89,14 +89,18 @@
 
         .pictures {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 20px;
             justify-content: center;
             margin-top: 20px;
+            overflow-x: auto;
+            padding: 20px;
+            max-width: 100%;
+            display: none; /* Hidden initially until button is clicked */
         }
 
         .pictures img {
-            width: 300px;
+            width: 200px;
             height: auto;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
@@ -167,8 +171,7 @@
 
             /* Resize images for mobile */
             .pictures img {
-                max-width: 100%; /* Ensure images fit on mobile */
-                width: 200px; /* Make images smaller for mobile */
+                width: 150px;
                 height: auto;
             }
 
@@ -214,7 +217,9 @@
             <button onclick="saveWish()">Send Wish</button>
         </div>
         <p id="wishMessage" class="wish-message"></p>
-        <div class="pictures">
+
+        <button id="viewImagesButton" onclick="viewImages()" style="display: none;">View Our Images</button> <!-- Button to view images -->
+        <div class="pictures" id="imagesContainer">
             <img src="pic1.jpg" alt="Picture 1">
             <img src="pic2.jpg" alt="Picture 2">
             <img src="pic3.jpg" alt="Picture 3">
@@ -277,6 +282,12 @@
             } else {
                 alert('Please write a wish!');
             }
+        }
+
+        function viewImages() {
+            // Show the images after the wish is sent
+            document.getElementById('viewImagesButton').style.display = 'none';
+            document.getElementById('imagesContainer').style.display = 'flex';
         }
     </script>
 </body>

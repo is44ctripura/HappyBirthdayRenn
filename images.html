@@ -14,6 +14,10 @@
             color: #fff;
         }
 
+        h1 {
+            margin-top: 20px;
+        }
+
         .pictures {
             display: flex;
             flex-wrap: wrap;
@@ -28,6 +32,12 @@
             height: auto;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(255, 105, 180, 0.5);
+        }
+
+        @media screen and (max-width: 768px) {
+            .pictures img {
+                max-width: 90%; /* Make images fit better on smaller screens */
+            }
         }
     </style>
 </head>

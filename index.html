@@ -19,7 +19,7 @@
             background: url('KISS.jpg') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
-            overflow: hidden; /* Prevent scrolling */
+            overflow: hidden;
         }
 
         .content {
@@ -31,14 +31,14 @@
             align-items: center;
             height: 100vh;
             opacity: 0;
-            transform: translateY(20px); /* Slide-in effect */
+            transform: translateY(20px);
             transition: opacity 1s ease-in-out, transform 1s ease-in-out;
         }
 
         .content.show {
             display: flex;
             opacity: 1;
-            transform: translateY(0); /* Reset slide */
+            transform: translateY(0);
         }
 
         h1, p, button {
@@ -167,60 +167,28 @@
         <h1>It's your special day! 🎉</h1>
         <p>Today is your birthday, and I made something special for you! 🥳</p>
         <button onclick="goToNextPage('page2')">Do you want to see?</button>
-        <button onclick="confirmNo()">No?</button>
-    </div>
-
-    <div class="content" id="page2">
-        <h1>Let's Celebrate Your Birthday! 🎂</h1>
-        <button onclick="playMusic()">Play Music</button>
-        <button onclick="goToNextPage('page3')">Click to Decorate</button>
-    </div>
-
-    <div class="content" id="page3">
-        <h1>Happy Birthday Ren! 🎈</h1>
-        <p>Here's your beautiful cake!</p>
-        <img src="Cakee.gif" alt="Cake" style="width: 200px;">
-        <button onclick="goToNextPage('page4')">Blow Candles</button>
-    </div>
-
-    <div class="content" id="page4">
-        <h1>Happy Birthday Again, Ren ❤️</h1>
-        <p>Thank you for being a part of my life. You mean everything to me 💖🎂.</p>
-        <div class="wish">
-            <input id="wishInput" type="text" placeholder="Type your wish here...">
-            <button onclick="saveWish()">Send Wish</button>
-        </div>
-        <p id="wishMessage" class="wish-message"></p>
-
-        <button id="viewImagesButton" onclick="redirectToImagesPage()" style="display: none;">View Our Images</button>
     </div>
 
     <script>
         function goToNextPage(pageId) {
             document.querySelectorAll('.content').forEach(page => page.classList.remove('show'));
             const nextPage = document.getElementById(pageId);
-            setTimeout(() => {
-                nextPage.classList.add('show');
-            }, 500); // Add slight delay for smoothness
+            nextPage.classList.add('show');
         }
 
-        function redirectToImagesPage() {
-            window.location.href = 'images.html';
-        }
+        const countdownElement = document.querySelector('#countdown-page h1');
+        let countdown = 3;
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown > 0 ? `${countdown}...` : 'Happy Birthday!';
+            if (countdown === 0) {
+                clearInterval(countdownInterval);
 
-        function saveWish() {
-            const wishInput = document.getElementById('wishInput').value;
-            const wishMessage = document.getElementById('wishMessage');
-            const viewImagesButton = document.getElementById('viewImagesButton');
-
-            if (wishInput.trim()) {
-                wishMessage.textContent = `Thank you for being a part of my life. I love you so much, and it breaks my heart that I couldn’t be with you on your special day. May God bless you and make all your wishes come true. You mean everything to me 💖🎂`;
-                alert(`Ren's wish: "${wishInput}"`);
-                viewImagesButton.style.display = 'block';
-            } else {
-                alert('Please write a wish!');
+                // Hide countdown-page and transition to page1
+                document.getElementById('countdown-page').classList.remove('show');
+                goToNextPage('page1');
             }
-        }
+        }, 1000);
     </script>
 </body>
 </html>

@@ -19,7 +19,7 @@
             background: url('KISS.jpg') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
-            overflow: hidden;
+            overflow: hidden; /* Prevent scrolling */
         }
 
         .content {
@@ -31,14 +31,14 @@
             align-items: center;
             height: 100vh;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(20px); /* Slide-in effect */
             transition: opacity 1s ease-in-out, transform 1s ease-in-out;
         }
 
         .content.show {
             display: flex;
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0); /* Reset slide */
         }
 
         h1, p, button {
@@ -85,6 +85,27 @@
             to {
                 opacity: 1;
             }
+        }
+
+        /* Pictures container (hidden initially) */
+        .pictures {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            overflow-y: scroll;
+            max-height: 50vh; /* Limit height for scrolling */
+            display: none; /* Hidden initially */
+            padding: 10px;
+        }
+
+        .pictures img {
+            width: 100%; /* Ensure images fit the screen width */
+            max-width: 250px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
 
         .wish {
@@ -135,6 +156,7 @@
             z-index: 9999;
         }
 
+        /* Button and image styles for mobile */
         @media screen and (max-width: 768px) {
             h1 {
                 font-size: 2em;
@@ -149,11 +171,16 @@
                 padding: 10px 20px;
             }
 
+            .pictures img {
+                width: 90%;
+            }
+
             #live-timer {
                 font-size: 12px;
                 padding: 8px;
             }
         }
+
     </style>
 </head>
 <body>
@@ -167,13 +194,59 @@
         <h1>It's your special day! 🎉</h1>
         <p>Today is your birthday, and I made something special for you! 🥳</p>
         <button onclick="goToNextPage('page2')">Do you want to see?</button>
+        <button onclick="confirmNo()">No?</button>
+    </div>
+
+    <div class="content" id="page2">
+        <h1>Let's Celebrate Your Birthday! 🎂</h1>
+        <button onclick="playMusic()">Play Music</button>
+        <button onclick="goToNextPage('page3')">Click to Decorate</button>
+    </div>
+
+    <div class="content" id="page3">
+        <h1>Happy Birthday Ren! 🎈</h1>
+        <p>Here's your beautiful cake!</p>
+        <img src="Cakee.gif" alt="Cake" style="width: 200px;">
+        <button onclick="goToNextPage('page4')">Blow Candles</button>
+    </div>
+
+    <div class="content" id="page4">
+        <h1>Happy Birthday Again, Ren ❤️</h1>
+        <p>Thank you for being a part of my life. You mean everything to me 💖🎂.</p>
+        <div class="wish">
+            <input id="wishInput" type="text" placeholder="Type your wish here...">
+            <button onclick="saveWish()">Send Wish</button>
+        </div>
+        <p id="wishMessage" class="wish-message"></p>
+
+        <button id="viewImagesButton" onclick="viewImages()" style="display: none;">View Our Images</button>
+        <div class="pictures" id="imagesContainer" style="display: none;">
+            <img src="pic1.jpg" alt="Picture 1">
+            <img src="pic2.jpg" alt="Picture 2">
+            <img src="pic3.jpg" alt="Picture 3">
+            <img src="pic4.jpg" alt="Picture 4">
+        </div>
     </div>
 
     <script>
         function goToNextPage(pageId) {
             document.querySelectorAll('.content').forEach(page => page.classList.remove('show'));
             const nextPage = document.getElementById(pageId);
-            nextPage.classList.add('show');
+            setTimeout(() => {
+                nextPage.classList.add('show');
+            }, 500); // Add slight delay for smoothness
+        }
+
+        function playMusic() {
+            const audio = new Audio('blue.mp3');
+            audio.play();
+        }
+
+        function confirmNo() {
+            if (confirm('Are you sure?')) {
+                alert('You have to! 😊');
+                goToNextPage('page1');
+            }
         }
 
         const countdownElement = document.querySelector('#countdown-page h1');
@@ -183,12 +256,44 @@
             countdownElement.textContent = countdown > 0 ? `${countdown}...` : 'Happy Birthday!';
             if (countdown === 0) {
                 clearInterval(countdownInterval);
-
-                // Hide countdown-page and transition to page1
-                document.getElementById('countdown-page').classList.remove('show');
                 goToNextPage('page1');
             }
         }, 1000);
+
+        const startDate = new Date('2021-09-21T22:45:00');
+        function updateLiveTimer() {
+            const now = new Date();
+            const elapsed = now - startDate;
+            const days = Math.floor(elapsed / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+            document.getElementById('live-timer').textContent = `We’ve been together for ${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds.`;
+        }
+
+        setInterval(updateLiveTimer, 1000);
+
+        function saveWish() {
+            const wishInput = document.getElementById('wishInput').value;
+            const wishMessage = document.getElementById('wishMessage');
+            const viewImagesButton = document.getElementById('viewImagesButton');
+
+            if (wishInput.trim()) {
+                wishMessage.textContent = `Thank you for being a part of my life. I love you so much, and it breaks my heart that I couldn’t be with you on your special day. May God bless you and make all your wishes come true. You mean everything to me 💖🎂`;
+                alert(`Ren's wish: "${wishInput}"`);
+                viewImagesButton.style.display = 'block';
+            } else {
+                alert('Please write a wish!');
+            }
+        }
+
+        function viewImages() {
+            const imagesContainer = document.getElementById('imagesContainer');
+            const viewImagesButton = document.getElementById('viewImagesButton');
+            viewImagesButton.style.display = 'none';
+            imagesContainer.style.display = 'flex';
+        }
     </script>
 </body>
 </html>
